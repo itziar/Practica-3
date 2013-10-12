@@ -109,6 +109,14 @@ it ("Reset Removed", function(){
 	});
 });
 
+it ("Finalize Removed", function(){
+	var gameBoard=new GameBoard();
+	spyOn(gameBoard, "finalizeRemoved");
+	gameBoard.finalizeRemoved();
+	runs(function(){
+		expect(gameBoard.finalizeRemoved).toHaveBeenCalled();
+	});
+});
 
 });
 	
