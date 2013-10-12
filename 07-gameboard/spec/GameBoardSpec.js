@@ -34,37 +34,51 @@
   Especificación: GameBoard debe
 
   - mantener una colección a la que se pueden añadir y de la que se
-    pueden eliminar sprites como nave enemiga, misil, nave del
-    jugador, explosión, etc.
+	 pueden eliminar sprites como nave enemiga, misil, nave del
+	 jugador, explosión, etc.
 
   - interacción con Game: cuando Game llame a los métodos step() y
-    draw() de un GameBoard que haya sido añadido como un board a Game,
-    GameBoard debe ocuparse de que se ejecuten los métodos step() y
-    draw() de todos los objetos que contenga
+	 draw() de un GameBoard que haya sido añadido como un board a Game,
+	 GameBoard debe ocuparse de que se ejecuten los métodos step() y
+	 draw() de todos los objetos que contenga
 
   - debe ofrecer la posibilidad de detectar la colisión entre
-    objetos. Un objeto sprite almacenado en GameBoard debe poder
-    detectar si ha colisionado con otro objeto del mismo
-    GameBoard. Los misiles disparados por la nave del jugador deberán
-    poder detectar gracias a esta funcionalidad ofrecida por GameBoard
-    cuándo han colisionado con una nave enemiga; una nave enemiga debe
-    poder detectar si ha colisionado con la nave del jugador; un misil
-    disparado por la nave enemiga debe poder detectar si ha
-    colisionado con la nave del jugador. Para ello es necesario que se
-    pueda identificar de qué tipo es cada objeto sprite almacenado en
-    el tablero de juegos, pues cada objeto sólo quiere comprobar si ha
-    colisionado con objetos de cierto tipo, no con todos los objetos.
+	 objetos. Un objeto sprite almacenado en GameBoard debe poder
+	 detectar si ha colisionado con otro objeto del mismo
+	 GameBoard. Los misiles disparados por la nave del jugador deberán
+	 poder detectar gracias a esta funcionalidad ofrecida por GameBoard
+	 cuándo han colisionado con una nave enemiga; una nave enemiga debe
+	 poder detectar si ha colisionado con la nave del jugador; un misil
+	 disparado por la nave enemiga debe poder detectar si ha
+	 colisionado con la nave del jugador. Para ello es necesario que se
+	 pueda identificar de qué tipo es cada objeto sprite almacenado en
+	 el tablero de juegos, pues cada objeto sólo quiere comprobar si ha
+	 colisionado con objetos de cierto tipo, no con todos los objetos.
 
 */
 
 describe("Clase GameBoard", function(){
 
-it ("Coleccion", function(){
- /*- mantener una colección a la que se pueden añadir y de la que se
-    pueden eliminar sprites como nave enemiga, misil, nave del
-    jugador, explosión, etc.*/
 
-  expect(1).toBeTruthy();
-});
+it ("Iterate", function(){
+	var gameBoard = new GameBoard();
+	var o1= { step: function() {}};
+	var o2= { step: function() {}};
+	var o3= { step: function() {}};
+	spyOn(o1,"step");
+	spyOn(o2,"step");
+	spyOn(o3,"step");
+	gameBoard.add(o1);
+	gameBoard.add(o2);
+	gameBoard.add(o3);
+	gameBoard.iterate("step",1.0);
+	runs(function(){
+		expect(o1.step).toHaveBeenCalled();
+		expect(o2.step).toHaveBeenCalled();
+		expect(o3.step).toHaveBeenCalled();
+	});
+
 
 });
+});
+	
