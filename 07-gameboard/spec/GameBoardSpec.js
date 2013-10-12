@@ -92,10 +92,6 @@ it ("Add", function(){
 
 
 it ("Remove", function(){
-// Marcar un objeto para borrar
-    this.remove = function(obj) { 
-	this.removed.push(obj); 
-    };
     var gameBoard=new GameBoard();
     var o1={step: function(){}};
     spyOn(gameBoard, "remove");
