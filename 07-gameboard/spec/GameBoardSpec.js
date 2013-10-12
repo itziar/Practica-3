@@ -77,8 +77,21 @@ it ("Iterate", function(){
 		expect(o2.step).toHaveBeenCalled();
 		expect(o3.step).toHaveBeenCalled();
 	});
+});
+
+it ("Add", function(){
+	var gameBoard = new GameBoard();
+	var o1= { step:function(){}};
+	spyOn(gameBoard, "add");
+	gameBoard.add(o1);
+	runs(function(){
+		expect(gameBoard.add).toHaveBeenCalled();
+		expect(gameBoard.add.calls[0].args[1]).toEqual(o1.step());
+	});
 
 
 });
+ 
+
 });
 	
