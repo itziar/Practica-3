@@ -88,10 +88,24 @@ it ("Add", function(){
 		expect(gameBoard.add).toHaveBeenCalled();
 		expect(gameBoard.add.calls[0].args[1]).toEqual(o1.step());
 	});
+});
 
+
+it ("Remove", function(){
+// Marcar un objeto para borrar
+    this.remove = function(obj) { 
+	this.removed.push(obj); 
+    };
+    var gameBoard=new GameBoard();
+    var o1={step: function(){}};
+    spyOn(gameBoard, "remove");
+    gameBoard.remove(o1);
+    runs(function(){
+    	expect(gameBoard.remove).toHaveBeenCalled();
+		expect(gameBoard.remove.calls[0].args[1]).toEqual(o1.step());
+    });
 
 });
- 
 
 });
 	
