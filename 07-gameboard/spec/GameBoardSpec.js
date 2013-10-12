@@ -56,3 +56,15 @@
     colisionado con objetos de cierto tipo, no con todos los objetos.
 
 */
+
+describe("Clase GameBoard", function(){
+
+it ("Coleccion", function(){
+ /*- mantener una colección a la que se pueden añadir y de la que se
+    pueden eliminar sprites como nave enemiga, misil, nave del
+    jugador, explosión, etc.*/
+
+  expect(1).toBeTruthy();
+});
+
+});
