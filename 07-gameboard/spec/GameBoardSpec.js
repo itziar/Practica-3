@@ -59,7 +59,6 @@
 
 describe("Clase GameBoard", function(){
 
-
 it ("Iterate", function(){
 	var gameBoard = new GameBoard();
 	var o1= { step: function() {}};
@@ -90,7 +89,6 @@ it ("Add", function(){
 	});
 });
 
-
 it ("Remove", function(){
     var gameBoard=new GameBoard();
     var o1={step: function(){}};
@@ -100,8 +98,17 @@ it ("Remove", function(){
     	expect(gameBoard.remove).toHaveBeenCalled();
 		expect(gameBoard.remove.calls[0].args[1]).toEqual(o1.step());
     });
-
 });
+
+it ("Reset Removed", function(){
+	var gameBoard=new GameBoard();
+	spyOn(gameBoard, "resetRemoved");
+	gameBoard.resetRemoved();
+	runs(function(){
+		expect(gameBoard.resetRemoved).toHaveBeenCalled();
+	});
+});
+
 
 });
 	
