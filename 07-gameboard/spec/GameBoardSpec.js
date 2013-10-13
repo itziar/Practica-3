@@ -118,5 +118,16 @@ it ("Finalize Removed", function(){
 	});
 });
 
+it ("Overlap", function(){
+	var gameBoard=new GameBoard();
+	var o1={x:1,y:2,w:4,h:4};
+	var o2={x:1,y:2,w:4,h:4};
+	spyOn(gameBoard,"overlap");
+	gameBoard.overlap(o1,o2);
+	runs(function(){
+		expect(gameBoard.overlap).toHaveBeenCalled();
+	});
+});
+
 });
 	
