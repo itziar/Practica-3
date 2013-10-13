@@ -140,5 +140,18 @@ it ("Collide", function(){
 		expect(gameBoard.collide.calls[0].args[1]).toEqual(o1.step());
 	});
 });
+
+it ("Detect", function(){
+	var gameBoard=new GameBoard();
+	var o1= { step:function(){}};
+	spyOn(gameBoard, "detect");
+	spyOn(o1, "step")
+	gameBoard.detect(o1);
+	runs(function(){
+		expect(gameBoard.detect).toHaveBeenCalled();
+		expect(gameBoard.detect.calls[0].args[1]).toEqual(o1.step());
+		expect(o1.step).toHaveBeenCalled();
+	});
+});
 });
 	
