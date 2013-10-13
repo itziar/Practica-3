@@ -126,6 +126,7 @@ it ("Overlap", function(){
 	gameBoard.overlap(o1,o2);
 	runs(function(){
 		expect(gameBoard.overlap).toHaveBeenCalled();
+		expect(gameBoard.overlap).toHaveBeenCalledWith(o1,o2)
 	});
 });
 
