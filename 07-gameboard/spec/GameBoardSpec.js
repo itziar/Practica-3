@@ -164,5 +164,14 @@ it ("Draw", function(){
     });
 });
 
+it ("Step", function(){
+	var gameBoard=new GameBoard();
+	spyOn(gameBoard, "step");
+	gameBoard.step(1.0);
+	runs(function(){
+		expect(gameBoard.step).toHaveBeenCalled();
+    });
+});
+
 });
 	
