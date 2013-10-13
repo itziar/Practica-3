@@ -130,5 +130,15 @@ it ("Overlap", function(){
 	});
 });
 
+it ("Collide", function(){
+	var gameBoard=new GameBoard();
+	var o1= { step:function(){}};
+	spyOn(gameBoard, "collide");
+	gameBoard.collide(o1);
+	runs(function(){
+		expect(gameBoard.collide).toHaveBeenCalled();
+		expect(gameBoard.collide.calls[0].args[1]).toEqual(o1.step());
+	});
+});
 });
 	
