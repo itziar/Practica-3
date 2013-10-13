@@ -153,5 +153,16 @@ it ("Detect", function(){
 		expect(o1.step).toHaveBeenCalled();
 	});
 });
+
+it ("Draw", function(){
+	var gameBoard=new GameBoard();
+	var o1 = {draw: function (){}};
+	spyOn(gameBoard, "draw");
+	gameBoard.draw(o1);
+	runs(function(){
+		expect(gameBoard.draw).toHaveBeenCalled();
+    });
+});
+
 });
 	
