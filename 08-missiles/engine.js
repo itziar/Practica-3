@@ -208,12 +208,12 @@ var GameBoard = function() {
     this.iterate = function(funcName) {
 	// Convertimos en un array args (1..)
 	var args = Array.prototype.slice.call(arguments,1);
-    var obj = this.objects;
-    _.map(args, function(funcName){ return obj[funcName].apply(obj,args); });
-	//for(var i=0, len=this.objects.length; i<len;i++) {
-	  //  var obj = this.objects[i];
-	    //obj[funcName].apply(obj,args)
-	//}
+   // var obj = this.objects;
+    //_.map(args, function(funcName){ return obj[funcName].apply(obj,args); });
+	for(var i=0, len=this.objects.length; i<len;i++) {
+	    var obj = this.objects[i];
+	    obj[funcName].apply(obj,args)
+	}
     };
 
     // Devuelve el primer objeto de objects para el que func es true
