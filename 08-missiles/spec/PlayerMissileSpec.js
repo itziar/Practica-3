@@ -29,34 +29,40 @@
 */
 
 describe("Clase PlayerMissile", function(){
- var canvas, ctx;
-
-    beforeEach(function(){
-   loadFixtures('index.html');
-
-   canvas = $('#game')[0];
-   expect(canvas).toExist();
-
-   ctx = canvas.getContext('2d');
-   expect(ctx).toBeDefined();
-
+   var canvas, ctx;
+   beforeEach(function(){
+      loadFixtures('index.html');
+      canvas = $('#game')[0];
+      expect(canvas).toExist();
+      ctx = canvas.getContext('2d');
+      expect(ctx).toBeDefined();
     });
+   
    it("draw", function(){
       SpriteSheet = {
          map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
          draw: function() {}
       };
-      
       var miNave = new PlayerMissile(0,3);
       spyOn(SpriteSheet, "draw");
-      miNave.draw(ctx);
-      
+      miNave.draw(ctx); 
       expect(SpriteSheet.draw).toHaveBeenCalled();
       expect(SpriteSheet.draw.calls[0].args[0]).toEqual(ctx);
       expect(SpriteSheet.draw.calls[0].args[1]).toEqual("missile");
       expect(SpriteSheet.draw.calls[0].args[2]).toEqual(miNave.x);
       expect(SpriteSheet.draw.calls[0].args[3]).toEqual(miNave.y);
-     
    });
+
+   it("step sin teclas pulsadas", function(){
+      SpriteSheet = {
+         map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+         draw: function() {}
+      };
+      var miNave = new PlayerShip();  
+      spyOn(SpriteSheet, "step"); 
+      miNave.step(1); 
+      expect(miNave.x).toEqual(x - miNave.w/2);
+      expect(miNave.y).toEqual(y - miNave.h);
+   };
 
 });
