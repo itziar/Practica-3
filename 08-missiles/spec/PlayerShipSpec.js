@@ -104,11 +104,7 @@ describe("Clase PlayerShip", function(){
 	// Tras step, con Game.keys['left'] == true, debe haberse
 	// movido a la izquierda
 	expect(miNave.x).toEqual(xNueva(dt));
-
-
     });
-
-
 
 });
 
