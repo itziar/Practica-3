@@ -53,16 +53,18 @@ describe("Clase PlayerMissile", function(){
       expect(SpriteSheet.draw.calls[0].args[3]).toEqual(miNave.y);
    });
 
-   it("step sin teclas pulsadas", function(){
+   it("step", function(){
+      
       SpriteSheet = {
-         map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
-         draw: function() {}
+         map : {ship: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+         step: function() {}
       };
-      var miNave = new PlayerShip();  
-      spyOn(SpriteSheet, "step"); 
-      miNave.step(1); 
-      expect(miNave.x).toEqual(x - miNave.w/2);
-      expect(miNave.y).toEqual(y - miNave.h);
-   };
+      var miNave = new PlayerShip();
+      var obj={step: function(){}};
+      var dummyBoard = {remove: function(obj) {}};
+      spyOn(miNave, "step"); 
+      miNave.step(1.0); 
+      expect(miNave.step).toHaveBeenCalled();
+   });
 
 });
