@@ -173,13 +173,4 @@ it ("Step", function(){
     });
 });
 
-it("Solo un disparo", function(){
-	var gameBoard=new GameBoard();
-	var o1={step:function(){}};
-	spyOn(o1, "step");
-	gameBoard.step(1.0);
-	expect(o1.step).toHaveBeenCalled();
-
-});
-
 });
