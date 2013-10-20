@@ -166,17 +166,11 @@ it ("Overlap", function(){
 
 it ("Collide", function(){
 	var gameBoard=new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "collide");
-	gameBoard.collide(o1);
-	runs(function(){
-		expect(gameBoard.collide).toHaveBeenCalled();
-		expect(gameBoard.collide.calls[0].args[1]).toEqual(o1.step());
-	});
+	var o1={x:1,y:2,w:4,h:4};
+	var o2={x:1,y:2,w:4,h:4};
+	gameBoard.add(o1);
+	gameBoard.add(o2);
+	expect(gameBoard.collide(o1,o2)).toBe(false);
 });
-
-
-
-
 
 });
