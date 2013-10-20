@@ -70,15 +70,41 @@ beforeEach(function(){
 
 it ("Add", function(){
 	var gameBoard = new GameBoard();
-	var o1= {};
-	spyOn(gameBoard, "add");
+	var o1= 99;
 	gameBoard.add(o1);
-	expect(gameBoard.add).toHaveBeenCalled();
-	expect(gameBoard.add.calls[0].args[1]).toEqual();
-	expect(gameBoard.objects[0]).toEqual();
-	expect(gameBoard.objects.length).toBe(0);
-	
+	expect(gameBoard.objects[0]).toEqual(99);
+	expect(gameBoard.objects.length).toBe(1); 
 });
+
+it ("Remove", function(){
+    var gameBoard=new GameBoard();
+    var o1=99;
+    spyOn(gameBoard, "remove");
+    gameBoard.remove(o1);
+    expect(gameBoard.remove).toHaveBeenCalled();
+	expect(gameBoard.objects[0]).toEqual(undefined);
+	expect(gameBoard.objects.length).toBe(0);
+});
+
+it ("Reset Removed", function(){
+	var gameBoard = new GameBoard();
+	var o1=99;
+	gameBoard.add(o1);
+	gameBoard.resetRemoved();
+	gameBoard.remove(o1);
+	expect(gameBoard.removed[0]).toEqual(99);
+});
+
+it ("Finalize Removed", function(){
+	var gameBoard = new GameBoard();
+	var o1=99;
+	gameBoard.add(o1);
+	gameBoard.resetRemoved();
+	gameBoard.remove(o1);
+	gameBoard.finalizeRemoved();
+	expect(gameBoard.objects[0]).toEqual(undefined);
+});
+
 it ("Iterate", function(){
 	var gameBoard = new GameBoard();
 	var o1= { step: function() {}};
@@ -95,37 +121,6 @@ it ("Iterate", function(){
 		expect(o1.step).toHaveBeenCalled();
 		expect(o2.step).toHaveBeenCalled();
 		expect(o3.step).toHaveBeenCalled();
-	});
-});
-
-
-
-it ("Remove", function(){
-    var gameBoard=new GameBoard();
-    var o1={step: function(){}};
-    spyOn(gameBoard, "remove");
-    gameBoard.remove(o1);
-    runs(function(){
-    	expect(gameBoard.remove).toHaveBeenCalled();
-		expect(gameBoard.remove.calls[0].args[1]).toEqual(o1.step());
-    });
-});
-
-it ("Reset Removed", function(){
-	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "resetRemoved");
-	gameBoard.resetRemoved();
-	runs(function(){
-		expect(gameBoard.resetRemoved).toHaveBeenCalled();
-	});
-});
-
-it ("Finalize Removed", function(){
-	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "finalizeRemoved");
-	gameBoard.finalizeRemoved();
-	runs(function(){
-		expect(gameBoard.finalizeRemoved).toHaveBeenCalled();
 	});
 });
 
