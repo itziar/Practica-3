@@ -14,57 +14,52 @@
   Especificación:
 
   - Hay que añadir a la variable sprites la especificación del sprite
-    missile
+	 missile
 
   - Cada vez que el usuario presione la tecla de espacio se añadirán
-    misiles al tablero de juego en la posición en la que esté la nave
-    del usuario. En el código de la clase PlayerSip es donde tienen
-    que añadirse los misiles
+	 misiles al tablero de juego en la posición en la que esté la nave
+	 del usuario. En el código de la clase PlayerSip es donde tienen
+	 que añadirse los misiles
 
   - La clase PlayerMissile es la que implementa los misiles. Es
-    importante que la creación de los misiles sea poco costosa pues va
-    a haber muchos disparos, para lo cual se declararán los métodos de
-    la clase en el prototipo
+	 importante que la creación de los misiles sea poco costosa pues va
+	 a haber muchos disparos, para lo cual se declararán los métodos de
+	 la clase en el prototipo
 
 */
 
 describe("Clase PlayerMissile", function(){
-   var canvas, ctx;
-   beforeEach(function(){
-      loadFixtures('index.html');
-      canvas = $('#game')[0];
-      expect(canvas).toExist();
-      ctx = canvas.getContext('2d');
-      expect(ctx).toBeDefined();
-    });
-   
-   it("draw", function(){
-      SpriteSheet = {
-         map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
-         draw: function() {}
-      };
-      var miNave = new PlayerMissile(0,3);
-      spyOn(SpriteSheet, "draw");
-      miNave.draw(ctx); 
-      expect(SpriteSheet.draw).toHaveBeenCalled();
-      expect(SpriteSheet.draw.calls[0].args[0]).toEqual(ctx);
-      expect(SpriteSheet.draw.calls[0].args[1]).toEqual("missile");
-      expect(SpriteSheet.draw.calls[0].args[2]).toEqual(miNave.x);
-      expect(SpriteSheet.draw.calls[0].args[3]).toEqual(miNave.y);
-   });
+	var canvas, ctx;
+	beforeEach(function(){
+		loadFixtures('index.html');
+		canvas = $('#game')[0];
+		expect(canvas).toExist();
+		ctx = canvas.getContext('2d');
+		expect(ctx).toBeDefined();
+	});
+	
+	it("draw", function(){
+		SpriteSheet = {
+			map : {missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
+			draw: function() {}
+		};
+		var miNave = new PlayerMissile(0,3);
+		spyOn(SpriteSheet, "draw");
+		miNave.draw(ctx); 
+		expect(SpriteSheet.draw).toHaveBeenCalled();
+		expect(SpriteSheet.draw.calls[0].args[0]).toEqual(ctx);
+		expect(SpriteSheet.draw.calls[0].args[1]).toEqual("missile");
+		expect(SpriteSheet.draw.calls[0].args[2]).toEqual(miNave.x);
+		expect(SpriteSheet.draw.calls[0].args[3]).toEqual(miNave.y);
+	});
 
-   it("step", function(){
-      
-      SpriteSheet = {
-         map : {ship: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 }},
-         step: function() {}
-      };
-      var miNave = new PlayerShip();
-      var obj={step: function(){}};
-      var dummyBoard = {remove: function(obj) {}};
-      spyOn(miNave, "step"); 
-      miNave.step(1.0); 
-      expect(miNave.step).toHaveBeenCalled();
-   });
+	it("step", function(){
+		var miNave = new PlayerMissile(0,3);
+		var dummyBoard = {remove: function(obj) {}};
+		miNave.board=dummyBoard;
+		spyOn(dummyBoard, "remove"); 
+		miNave.step(1.0); 
+		expect(dummyBoard.remove).toHaveBeenCalled();
+	});
 
 });
