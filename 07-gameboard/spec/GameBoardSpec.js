@@ -77,11 +77,11 @@ it ("Add", function(){
 });
 
 it ("Remove", function(){
-    var gameBoard=new GameBoard();
-    var o1=99;
-    spyOn(gameBoard, "remove");
-    gameBoard.remove(o1);
-    expect(gameBoard.remove).toHaveBeenCalled();
+	var gameBoard=new GameBoard();
+	var o1=99;
+	spyOn(gameBoard, "remove");
+	gameBoard.remove(o1);
+	expect(gameBoard.remove).toHaveBeenCalled();
 	expect(gameBoard.objects[0]).toEqual(undefined);
 	expect(gameBoard.objects.length).toBe(0);
 });
@@ -132,6 +132,29 @@ it ("Detect", function(){
 	expect(gameBoard.collide(o2)).toBe(o1);
 });
 
+it ("Step", function(){
+	var gameBoard=new GameBoard();
+	var o1={};
+	spyOn(gameBoard, "step");
+	gameBoard.add(o1);
+	gameBoard.step(ctx);
+	runs(function(){
+		expect(gameBoard.step).toHaveBeenCalled();
+	});
+});
+
+it ("Draw", function(){
+	var gameBoard=new GameBoard();
+	var o1 = {};
+	spyOn(gameBoard, "draw");
+	gameBoard.add(o1);
+	gameBoard.draw(ctx);
+	waits(100);
+	runs(function(){
+		expect(gameBoard.draw).toHaveBeenCalled();
+	});
+});
+
 it ("Overlap", function(){
 	var gameBoard=new GameBoard();
 	var o1={x:1,y:2,w:4,h:4};
@@ -154,23 +177,6 @@ it ("Collide", function(){
 
 
 
-it ("Draw", function(){
-	var gameBoard=new GameBoard();
-	var o1 = {draw: function (){}};
-	spyOn(gameBoard, "draw");
-	gameBoard.draw(o1);
-	runs(function(){
-		expect(gameBoard.draw).toHaveBeenCalled();
-    });
-});
 
-it ("Step", function(){
-	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "step");
-	gameBoard.step(1.0);
-	runs(function(){
-		expect(gameBoard.step).toHaveBeenCalled();
-    });
-});
 
 });
