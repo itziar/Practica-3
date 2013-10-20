@@ -59,6 +59,52 @@
 
 describe("Clase GameBoard", function(){
 
+var canvas, ctx;
+beforeEach(function(){
+	loadFixtures('index.html');
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+});
+
+it ("Add", function(){
+	var gameBoard = new GameBoard();
+	var o1= 99;
+	gameBoard.add(o1);
+	expect(gameBoard.objects[0]).toEqual(99);
+	expect(gameBoard.objects.length).toBe(1); 
+});
+
+it ("Remove", function(){
+	var gameBoard=new GameBoard();
+	var o1=99;
+	spyOn(gameBoard, "remove");
+	gameBoard.remove(o1);
+	expect(gameBoard.remove).toHaveBeenCalled();
+	expect(gameBoard.objects[0]).toEqual(undefined);
+	expect(gameBoard.objects.length).toBe(0);
+});
+
+it ("Reset Removed", function(){
+	var gameBoard = new GameBoard();
+	var o1=99;
+	gameBoard.add(o1);
+	gameBoard.resetRemoved();
+	gameBoard.remove(o1);
+	expect(gameBoard.removed[0]).toEqual(99);
+});
+
+it ("Finalize Removed", function(){
+	var gameBoard = new GameBoard();
+	var o1=99;
+	gameBoard.add(o1);
+	gameBoard.resetRemoved();
+	gameBoard.remove(o1);
+	gameBoard.finalizeRemoved();
+	expect(gameBoard.objects[0]).toEqual(undefined);
+});
+
 it ("Iterate", function(){
 	var gameBoard = new GameBoard();
 	var o1= { step: function() {}};
@@ -78,43 +124,34 @@ it ("Iterate", function(){
 	});
 });
 
-it ("Add", function(){
-	var gameBoard = new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "add");
+it ("Detect", function(){
+	var gameBoard=new GameBoard();
+	var o1= {x: 0, y: 0, w: 99, h: 99};
+	var o2= {x: 0, y: 0, w: 99, h: 99};
 	gameBoard.add(o1);
+	expect(gameBoard.collide(o2)).toBe(o1);
+});
+
+it ("Step", function(){
+	var gameBoard=new GameBoard();
+	var o1={};
+	spyOn(gameBoard, "step");
+	gameBoard.add(o1);
+	gameBoard.step(ctx);
 	runs(function(){
-		expect(gameBoard.add).toHaveBeenCalled();
-		expect(gameBoard.add.calls[0].args[1]).toEqual(o1.step());
+		expect(gameBoard.step).toHaveBeenCalled();
 	});
 });
 
-it ("Remove", function(){
-    var gameBoard=new GameBoard();
-    var o1={step: function(){}};
-    spyOn(gameBoard, "remove");
-    gameBoard.remove(o1);
-    runs(function(){
-    	expect(gameBoard.remove).toHaveBeenCalled();
-		expect(gameBoard.remove.calls[0].args[1]).toEqual(o1.step());
-    });
-});
-
-it ("Reset Removed", function(){
+it ("Draw", function(){
 	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "resetRemoved");
-	gameBoard.resetRemoved();
+	var o1 = {};
+	spyOn(gameBoard, "draw");
+	gameBoard.add(o1);
+	gameBoard.draw(ctx);
+	waits(100);
 	runs(function(){
-		expect(gameBoard.resetRemoved).toHaveBeenCalled();
-	});
-});
-
-it ("Finalize Removed", function(){
-	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "finalizeRemoved");
-	gameBoard.finalizeRemoved();
-	runs(function(){
-		expect(gameBoard.finalizeRemoved).toHaveBeenCalled();
+		expect(gameBoard.draw).toHaveBeenCalled();
 	});
 });
 
@@ -122,55 +159,18 @@ it ("Overlap", function(){
 	var gameBoard=new GameBoard();
 	var o1={x:1,y:2,w:4,h:4};
 	var o2={x:1,y:2,w:4,h:4};
-	spyOn(gameBoard,"overlap");
-	gameBoard.overlap(o1,o2);
-	runs(function(){
-		expect(gameBoard.overlap).toHaveBeenCalled();
-		expect(gameBoard.overlap).toHaveBeenCalledWith(o1,o2)
-	});
+	gameBoard.add(o1);
+	gameBoard.add(o2);
+	expect(gameBoard.overlap(o1,o2)).toEqual(true);
 });
 
 it ("Collide", function(){
 	var gameBoard=new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "collide");
-	gameBoard.collide(o1);
-	runs(function(){
-		expect(gameBoard.collide).toHaveBeenCalled();
-		expect(gameBoard.collide.calls[0].args[1]).toEqual(o1.step());
-	});
-});
-
-it ("Detect", function(){
-	var gameBoard=new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "detect");
-	spyOn(o1, "step")
-	gameBoard.detect(o1);
-	runs(function(){
-		expect(gameBoard.detect).toHaveBeenCalled();
-		expect(gameBoard.detect.calls[0].args[1]).toEqual(o1.step());
-		expect(o1.step).toHaveBeenCalled();
-	});
-});
-
-it ("Draw", function(){
-	var gameBoard=new GameBoard();
-	var o1 = {draw: function (){}};
-	spyOn(gameBoard, "draw");
-	gameBoard.draw(o1);
-	runs(function(){
-		expect(gameBoard.draw).toHaveBeenCalled();
-    });
-});
-
-it ("Step", function(){
-	var gameBoard=new GameBoard();
-	spyOn(gameBoard, "step");
-	gameBoard.step(1.0);
-	runs(function(){
-		expect(gameBoard.step).toHaveBeenCalled();
-    });
+	var o1={x:1,y:2,w:4,h:4};
+	var o2={x:1,y:2,w:4,h:4};
+	gameBoard.add(o1);
+	gameBoard.add(o2);
+	expect(gameBoard.collide(o1,o2)).toBe(false);
 });
 
 });

@@ -139,6 +139,53 @@ var PlayerShip = function() {
 // Los metodos de esta clase los añadimos a su prototipo. De esta
 // forma solo existe una copia de cada uno para todos los misiles, y
 // no una copia para cada objeto misil
+var PlayerShip = function() { 
+    this.w =  SpriteSheet.map['ship'].w;
+    this.h =  SpriteSheet.map['ship'].h;
+    this.x = Game.width/2 - this.w / 2;
+    this.y = Game.height - 10 - this.h;
+    this.vx = 0;
+
+    this.reloadTime = 0.25;  // Un cuarto de segundo para poder volver a disparar
+    this.reload = this.reloadTime;
+
+    this.maxVel = 200;
+    var up = false;
+    this.step = function(dt) {
+    if(Game.keys['left']) { this.vx = -this.maxVel; }
+    else if(Game.keys['right']) { this.vx = this.maxVel; }
+    else { this.vx = 0; }
+
+    this.x += this.vx * dt;
+
+    if(this.x < 0) { this.x = 0; }
+    else if(this.x > Game.width - this.w) { 
+        this.x = Game.width - this.w 
+    }
+
+    this.reload-=dt;
+    if(!Game.keys['fire']) up = true;
+    if(up && Game.keys['fire'] && this.reload < 0) {
+        // Esta pulsada la tecla de disparo y ya ha pasado el tiempo reload
+        Game.keys['fire'] = true;
+        up=false;
+        this.reload = this.reloadTime;
+
+        // Se añaden al gameboard 2 misiles 
+        this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
+        this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
+    }
+    }
+
+    this.draw = function(ctx) {
+    SpriteSheet.draw(ctx,'ship',this.x,this.y,0);
+    }
+}
+
+// Constructor los misiles.
+// Los metodos de esta clase los añadimos a su prototipo. De esta
+// forma solo existe una copia de cada uno para todos los misiles, y
+// no una copia para cada objeto misil
 var PlayerMissile = function(x,y) {
     this.w = SpriteSheet.map['missile'].w;
     this.h = SpriteSheet.map['missile'].h;
@@ -156,6 +203,7 @@ PlayerMissile.prototype.step = function(dt)  {
 PlayerMissile.prototype.draw = function(ctx)  {
     SpriteSheet.draw(ctx,'missile',this.x,this.y);
 };
+
 
 
 $(function() {
