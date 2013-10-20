@@ -124,6 +124,14 @@ it ("Iterate", function(){
 	});
 });
 
+it ("Detect", function(){
+	var gameBoard=new GameBoard();
+	var o1= {x: 0, y: 0, w: 99, h: 99};
+	var o2= {x: 0, y: 0, w: 99, h: 99};
+	gameBoard.add(o1);
+	expect(gameBoard.collide(o2)).toBe(o1);
+});
+
 it ("Overlap", function(){
 	var gameBoard=new GameBoard();
 	var o1={x:1,y:2,w:4,h:4};
@@ -144,18 +152,7 @@ it ("Collide", function(){
 	});
 });
 
-it ("Detect", function(){
-	var gameBoard=new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "detect");
-	spyOn(o1, "step")
-	gameBoard.detect(o1);
-	runs(function(){
-		expect(gameBoard.detect).toHaveBeenCalled();
-		expect(gameBoard.detect.calls[0].args[1]).toEqual(o1.step());
-		expect(o1.step).toHaveBeenCalled();
-	});
-});
+
 
 it ("Draw", function(){
 	var gameBoard=new GameBoard();
