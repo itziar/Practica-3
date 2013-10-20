@@ -59,6 +59,26 @@
 
 describe("Clase GameBoard", function(){
 
+var canvas, ctx;
+beforeEach(function(){
+	loadFixtures('index.html');
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+});
+
+it ("Add", function(){
+	var gameBoard = new GameBoard();
+	var o1= {};
+	spyOn(gameBoard, "add");
+	gameBoard.add(o1);
+	expect(gameBoard.add).toHaveBeenCalled();
+	expect(gameBoard.add.calls[0].args[1]).toEqual();
+	expect(gameBoard.objects[0]).toEqual();
+	expect(gameBoard.objects.length).toBe(0);
+	
+});
 it ("Iterate", function(){
 	var gameBoard = new GameBoard();
 	var o1= { step: function() {}};
@@ -78,16 +98,7 @@ it ("Iterate", function(){
 	});
 });
 
-it ("Add", function(){
-	var gameBoard = new GameBoard();
-	var o1= { step:function(){}};
-	spyOn(gameBoard, "add");
-	gameBoard.add(o1);
-	runs(function(){
-		expect(gameBoard.add).toHaveBeenCalled();
-		expect(gameBoard.add.calls[0].args[1]).toEqual(o1.step());
-	});
-});
+
 
 it ("Remove", function(){
     var gameBoard=new GameBoard();
